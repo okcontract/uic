@@ -1,0 +1,5 @@
+# PrettyDate
+
+```svelte
+<PrettyDate {date} />
+```

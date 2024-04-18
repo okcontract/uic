@@ -1,0 +1,5 @@
+# Loading
+
+```svelte
+<Loading />
+```

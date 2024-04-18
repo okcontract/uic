@@ -1,0 +1,66 @@
+/* BASE */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+}
+
+/* COMPONENTS */
+
+@layer components {
+  /* Backgrounds */
+  .bg-black-alpha {
+    @apply bg-black/5;
+  }
+  .bg-white-alpha {
+    @apply bg-white/10;
+  }
+
+  /* Collapse  */
+  .collapse-arrow.collapse-sm {
+    @apply rounded;
+  }
+  .collapse-arrow.collapse-sm > .collapse-title {
+    @apply min-h-4 px-2 text-sm;
+  }
+  .collapse-arrow.collapse-sm > .collapse-title:after {
+    @apply top-6 end-4;
+  }
+  .collapse-arrow.collapse-sm > .collapse-content {
+    @apply pb-2 px-2 text-sm;
+  }
+
+  .collapse-arrow.collapse-md > .collapse-title {
+    @apply min-h-6 text-base;
+  }
+  .collapse-arrow.collapse-md > .collapse-title:after {
+    @apply top-6 end-6;
+  }
+  .collapse-arrow.collapse-md > .collapse-content {
+    @apply pb-4 text-base;
+  }
+
+  .collapse-arrow.collapse-lg > .collapse-title {
+    @apply text-xl;
+  }
+
+  /* Range */
+  .range-white {
+    --range-shdw: oklch(1 0 0);
+    --slider-track-color: rgba(255, 255, 255, 0.3);
+    --slider-thumb-color: rgb(193, 193, 193);
+  }
+  .range-white::-webkit-slider-runnable-track {
+    background-color: var(--slider-track-color, rgba(255, 255, 255, 0.3));
+  }
+  .range-white::-moz-range-track {
+    background-color: var(--slider-track-color, rgba(255, 255, 255, 0.3));
+  }
+  .range-white::-webkit-slider-thumb {
+    background-color: var(--slider-thumb-color, rgb(193, 193, 193));
+  }
+  .range-white::-moz-range-thumb {
+    background-color: var(--slider-thumb-color, rgb(193, 193, 193));
+  }
+}
