@@ -1,11 +1,12 @@
 {
   "name": "@okcontract/uic",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "UI Components made for Svelte, built with cells, TailwindCSS and DaisyUI",
   "private": false,
   "type": "module",
   "types": "dist/index.d.ts",
   "svelte": "./src/index.ts",
+  "style": "./dist/style.min.css",
   "exports": {
     ".": {
       "svelte": "./src/index.ts",
@@ -33,12 +34,15 @@
     "@tailwindcss/typography": "^0.5.12",
     "@tsconfig/svelte": "^5.0.4",
     "autoprefixer": "^10.4.19",
+    "cssnano": "^6.1.2",
     "daisyui": "^4.10.2",
     "happy-dom": "^14.7.1",
     "histoire": "^0.17.17",
     "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
     "svelte": "^4.2.15",
     "svelte-preprocess": "^5.1.4",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
     "vite": "^5.2.9"
   },
@@ -52,7 +56,8 @@
     "prepublishOnly": "npm test && npm run build && npm run check && npm run definitions",
     "check": "npx @biomejs/biome check src",
     "format": "npx @biomejs/biome format src --write && npx @biomejs/biome check src --apply",
-    "formatReadme": "prettier README.md --prose-wrap always --print-width 78 -w"
+    "formatReadme": "prettier README.md --prose-wrap always --print-width 78 -w",
+    "build-css": "npx tailwindcss -o dist/style.css && postcss dist/style.css -o dist/style.min.css"
   },
   "repository": {
     "type": "git",
