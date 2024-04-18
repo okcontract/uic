@@ -1,0 +1,7 @@
+node_modules
+coverage
+dist
+*.dot
+src/*.dot
+README.html
+coverage
