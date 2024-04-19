@@ -74,7 +74,7 @@
       ? ' btn-wide'
       : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
       ? ' btn-square'
-      : ''} {capitalize ? ' capitalize' : ''}"
+      : ''}{capitalize ? ' capitalize' : ''}"
     style={theme.apply($compiledTheme, thParts)}
     >{#if label}{label}{/if}
     {#if addAsyncSpin && $working}
@@ -93,11 +93,11 @@
       'btn btn-default border-transparent hover:border-transparent',
       'btn btn-neutral border-transparent hover:border-transparent',
       buttonStyles[style]
-    )} {buttonSizes[size]} {outline ? 'btn-outline' : ''} {wide
-      ? 'btn-wide'
-      : ''} {block ? 'btn-block' : ''} {circle ? 'btn-circle' : ''} {square
-      ? 'btn-square'
-      : ''} {disabled ? 'btn-disabled' : ''} {capitalize ? 'capitalize' : ''} "
+    )} {buttonSizes[size]}{outline ? ' btn-outline' : ''}{wide
+      ? ' btn-wide'
+      : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
+      ? ' btn-square'
+      : ''}{disabled ? ' btn-disabled' : ''}{capitalize ? ' capitalize' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     {#if iconPrepend}
@@ -122,11 +122,11 @@
       'btn btn-default border-transparent hover:border-transparent',
       'btn btn-neutral border-transparent hover:border-transparent',
       buttonStyles[style]
-    )} {buttonSizes[size]} {outline ? 'btn-outline' : ''} {wide
-      ? 'btn-wide'
-      : ''} {block ? 'btn-block' : ''} {circle ? 'btn-circle' : ''} {square
-      ? 'btn-square'
-      : ''} {disabled ? 'btn-disabled' : ''} {capitalize ? 'capitalize' : ''}"
+    )} {buttonSizes[size]}{outline ? ' btn-outline' : ''}{wide
+      ? ' btn-wide'
+      : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
+      ? ' btn-square'
+      : ''}{disabled ? ' btn-disabled' : ''}{capitalize ? ' capitalize' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     Retry: {#if label}{label}{/if}
