@@ -45,9 +45,9 @@
           </button>
         </div>
         <ul slot="main">
-          <li><a href="/">One</a></li>
-          <li><a href="/">Two</a></li>
-          <li><a href="/">Three</a></li>
+          <li><span>One</span></li>
+          <li><span>Two</span></li>
+          <li><span>Three</span></li>
         </ul>
       </Dropdown>
     </div>

@@ -19,9 +19,12 @@
     <div class="mb-6 prose prose-sm md:prose-base">
       <h1>Icon</h1>
       <p>
-        This component is used to display an icon. It has customizable fill
-        color and size.
+        This component is used to display an icon. Most of the icons come from
+        the <a href="https://heroicons.com/" target="_blank">Heroicons</a> library.
+        There are two types of icons: solid and outline. Outline icons come with
+        '-o' suffix.
       </p>
+      <p>Icon component has customizable fill color and size.</p>
     </div>
     <div
       class="grid border border-base-400 rounded-box min-h-20 min-w-md w-full gap-4 place-content-center"
