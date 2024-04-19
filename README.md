@@ -1,3 +1,6 @@
+[![storybook - @okcontract/uic](https://img.shields.io/badge/storybook-%40okcontract%2Fuic-purple)](https://uic.pages.dev)
+[![dependency - @okcontract/cells](https://img.shields.io/badge/using-%40okcontract%2Fcells-blue)](https://github.com/okcontract/cells)
+
 # OKcontract UI Components (UIC)
 
 <!-- @todo badges
