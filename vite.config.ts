@@ -35,7 +35,7 @@ export default defineConfig({
         light: "./assets/ok-icon.png",
         dark: "./assets/ok-icon.png"
       },
-      logoHref: "https://app.okcontract.com",
+      logoHref: "https://okcontract.com",
       colors: {
         gray: defaultColors.gray,
         primary: defaultColors.gray
