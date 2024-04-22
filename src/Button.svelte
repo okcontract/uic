@@ -47,6 +47,7 @@
   export let capitalize: boolean = true;
   export let addAsyncSpin = false;
   export let showErrors = false;
+  export let joined: boolean = false;
 
   export let thParts: ThemeParts[] = [];
   const theme = getTheme();
@@ -74,7 +75,7 @@
       ? ' btn-wide'
       : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
       ? ' btn-square'
-      : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{joined ? ' join-item' : ''}{capitalize ? ' capitalize' : ''}"
     style={theme.apply($compiledTheme, thParts)}
     >{#if label}{label}{/if}
     {#if addAsyncSpin && $working}
@@ -97,7 +98,9 @@
       ? ' btn-wide'
       : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
       ? ' btn-square'
-      : ''}{disabled ? ' btn-disabled' : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{disabled ? ' btn-disabled' : ''}{joined
+      ? ' join-item'
+      : ''}{capitalize ? ' capitalize' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     {#if iconPrepend}
@@ -126,7 +129,9 @@
       ? ' btn-wide'
       : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
       ? ' btn-square'
-      : ''}{disabled ? ' btn-disabled' : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{disabled ? ' btn-disabled' : ''}{joined
+      ? ' join-item'
+      : ''}{capitalize ? ' capitalize' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     Retry: {#if label}{label}{/if}
