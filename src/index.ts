@@ -8,6 +8,7 @@ export { default as Checkbox } from "./Checkbox.svelte";
 export { default as Collapsible } from "./Collapsible.svelte";
 export { default as CustomSelect } from "./CustomSelect.svelte";
 export { default as Dropdown } from "./Dropdown.svelte";
+export { default as Hidden } from "./Hidden.svelte";
 export { default as Hoverable } from "./Hoverable.svelte";
 export { default as Icon } from "./Icon.svelte";
 export { default as InlineDescription } from "./InlineDescription.svelte";
@@ -88,3 +89,4 @@ export type {
   TooltipPosition,
   TooltipStyle
 } from "./ui";
+
