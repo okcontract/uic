@@ -134,13 +134,13 @@ updates the Collapsible state from anywhere.
   import { Collapsible } from "@okcontract/uic";
   // @see cells documentation about creating proxies
   import { proxy } from "./lib";
-  const disabled = proxy.new(false, "disabled");
+  const open = proxy.new(false, "disabled");
 
-  // programmatically update disabled (including outside of this component)
-  // $disabled = true;
+  // programmatically update open (including outside of this component)
+  // $open = true;
 </script>
 
-<Collapsible {proxy} {style} {size} {disabled}>
+<Collapsible {proxy} {style} {size} isOpen={open}>
   <div slot="heading">{heading}</div>
   <div>{content}</div>
 </Collapsible>
