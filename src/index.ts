@@ -28,6 +28,7 @@ export { type TabComponent } from "./Tab.utils";
 export { default as TabList } from "./TabList.svelte";
 export { default as TabPanel } from "./TabPanel.svelte";
 export { default as TabWrapper } from "./TabWrapper.svelte";
+export { default as TabWrapperCell } from "./TabWrapperCell.svelte";
 export { default as TabsMain } from "./TabsMain.svelte";
 export { default as Toggle } from "./Toggle.svelte";
 export { default as Tooltip } from "./Tooltip.svelte";
@@ -89,4 +90,3 @@ export type {
   TooltipPosition,
   TooltipStyle
 } from "./ui";
-
