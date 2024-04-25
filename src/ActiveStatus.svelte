@@ -5,7 +5,7 @@
 
 <div
   class="badge {act ? 'badge-success' : 'badge-error'} {label
-    ? 'badge-md badge-outline'
+    ? 'badge-md'
     : 'badge-xs'}"
 >
   {#if label}<span>{label}</span>{/if}
