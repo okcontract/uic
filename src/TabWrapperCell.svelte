@@ -17,7 +17,7 @@
 
   export let canAdd: boolean = true;
   export let addLabel = "Add tab";
-  export let addElement: () => void = undefined;
+  export let addElement: () => Promise<void> | void = undefined;
 
   export let canRemove: boolean = true;
   export let removeElement: (i: number) => void = undefined;
@@ -58,7 +58,7 @@
             size="xs"
             label={addLabel}
             disabled={false}
-            action={addElement}
+            asyncAction={addElement}
           />
         </div>
       {/if}
