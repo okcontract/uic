@@ -57,14 +57,14 @@
   const defaultIcon: IconName = "add";
 </script>
 
-<div class="dropdown custom-select">
+<div class="dropdown custom-select {isOpen ? 'dropdown-open' : ''}">
   <button class="mb-1 btn btn-sm btn-default" on:click={toggleDropdown}>
     <slot />
   </button>
   <div
-    class="dropdown-content z-[1] menu p-2 shadow rounded-box {isOpen
-      ? 'dropdown-open'
-      : ''} {sizes[size]} {theme.dark(
+    class="dropdown-content z-[1] menu p-2 shadow rounded-box min-h-10 {sizes[
+      size
+    ]} {theme.dark(
       $compiledTheme,
       'bg-white-alpha text-white',
       'bg-black-alpha text-black',
