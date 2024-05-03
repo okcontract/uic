@@ -142,7 +142,7 @@ export type TabSize = keyof typeof tabSizes;
 
 export const tabMargins = {
   none: "",
-  neg: "-mb-[var(--tab-border)]",
+  neg: "-mb-1",
   default: "mb-4"
 };
 export type TabMargin = keyof typeof tabMargins;
