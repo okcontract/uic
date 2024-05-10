@@ -1,6 +1,15 @@
 import { getContext } from "svelte";
 
-import type { AnyCell, MapCell } from "@okcontract/cells";
+import {
+  type SheetProxy,
+  mapObject,
+  reduceObject,
+  type AnyCell,
+  type Cell,
+  type CellObject,
+  type Cellified,
+  type MapCell
+} from "@okcontract/cells";
 
 import {
   type CompiledTheme,
@@ -28,16 +37,21 @@ export const getTheme = (th?: AnyCell<RawThemeDefinition>): Theme =>
 // 3. compiled theme with built css props used directly in components.
 
 export class Theme {
+  proxy: SheetProxy;
   compiled: MapCell<CompiledTheme, true>;
-  raw: AnyCell<RawThemeDefinition>;
+  raw: CellObject<RawThemeDefinition>;
 
-  constructor(th: AnyCell<RawThemeDefinition>) {
+  constructor(proxy: SheetProxy, th: CellObject<RawThemeDefinition>) {
+    if (!proxy || !th) return;
+    console.log("new Theme", { proxy, th });
+    this.proxy = proxy;
     this.raw = th;
-    this.compiled = th?.map(
-      (_th) => (_th && this.compile(_th)) || null,
-      "Theme.compiled",
-      true
-    );
+    this.compiled = this.compile(th);
+    // this.compiled = th?.map(
+    //   (_th) => (_th && this.compile(proxy, _th)) || null,
+    //   "Theme.compiled",
+    //   true
+    // );
   }
 
   /**
@@ -51,19 +65,16 @@ export class Theme {
    * @param th RawThemeDefinition
    * @returns
    */
-  compile = (th: RawThemeDefinition) => {
-    return Object.entries(th).reduce((acc, [k, v]) => {
-      // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-      if (v === undefined) return { ...acc, [k]: undefined };
-      // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-      if (typeof v === "boolean") return { ...acc, [k]: v ? "dark" : "light" };
+  compile = (th: CellObject<string>) => {
+    console.log("compile=>", { th });
+    const res = mapObject(this.proxy, th, (k, v, cell) => {
+      console.log({ k, v, cell });
+      if (typeof v === "boolean") return v ? "dark" : "light";
       const [sty, ...r] = v.split(":");
       if ("act" === k)
         // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-        return { ...acc, [k]: { style: `color: ${r[0]}`, value: r[0] } };
-
+        return { style: `color: ${r[0]}`, value: r[0] };
       let val: CompiledThemeValue;
-
       const prop = map_css_theme[k][sty];
       switch (sty) {
         case "color":
@@ -82,8 +93,43 @@ export class Theme {
           break;
       }
       // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-      return { ...acc, [k]: val };
-    }, {} as CompiledTheme);
+      return val;
+    });
+    console.log("compile=>", { res, resvalue: res.value });
+    return res;
+
+    // return Object.entries(th).reduce((acc, [k, v]) => {
+    //   // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+    //   if (v === undefined) return { ...acc, [k]: undefined };
+    //   // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+    //   if (typeof v === "boolean") return { ...acc, [k]: v ? "dark" : "light" };
+    //   const [sty, ...r] = v.split(":");
+    //   if ("act" === k)
+    //     // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+    //     return { ...acc, [k]: { style: `color: ${r[0]}`, value: r[0] } };
+
+    //   let val: CompiledThemeValue;
+
+    //   const prop = map_css_theme[k][sty];
+    //   switch (sty) {
+    //     case "color":
+    //       val = { style: `${prop}: ${r[0]};`, value: r[0] };
+    //       break;
+    //     case "img": {
+    //       const url = `${r[0]}:${r[1]}`;
+    //       val = { style: `${prop}: url("${url}");`, value: url };
+    //       break;
+    //     }
+    //     case "grad":
+    //       val = {
+    //         style: `${prop}: linear-gradient(${r[2]}deg,${r[0]},${r[1]});`,
+    //         value: [r[2], r[0], r[1]]
+    //       };
+    //       break;
+    //   }
+    //   // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+    //   return { ...acc, [k]: val };
+    // }, {} as CompiledTheme);
   };
 
   /**
@@ -98,29 +144,62 @@ export class Theme {
     parts: ThemeParts[],
     extras: ThemeExtras[] = []
   ) => {
-    let s = "";
-    if (!compiled || !parts?.length) return s;
-    if (
-      compiled?.tx &&
-      parts.includes(ThemeText) &&
-      !extras.includes(ThemeFocus)
-    )
-      s = `${compiled.tx.style}`;
-    if (compiled?.bt && parts.includes(ThemeButton))
-      s = `${s} ${compiled.bt.style}`;
-    if (compiled?.bg && parts.includes(ThemeBackground))
-      s = `${s} ${compiled.bg.style}`;
-    if (compiled?.bg && extras.includes(ThemeBackgroundTransparent))
-      s = `${s} background-color: transparent`;
-    if (compiled?.act && parts.includes(ThemeAccent)) {
-      if (!extras.includes(ThemeFocus)) return s;
-      let { style } = compiled.act;
+    // @todo reduceObject
 
-      if (extras.includes(ThemeError)) style = "color: #F43F5E";
+    if (!compiled) return "";
+    console.log({ compiled });
+    const res = reduceObject(
+      this.proxy,
+      compiled,
+      (acc, k, v, vc) => {
+        console.log("reduceObject", { acc, k, v, parts, extras });
+        if (
+          k === "tx" &&
+          parts.includes(ThemeText) &&
+          !extras.includes(ThemeFocus)
+        )
+          return `${acc} ${v.style}`;
+        if (k === "bt" && parts.includes(ThemeButton))
+          return `${acc} ${v.style}`;
+        if (k === "bg" && parts.includes(ThemeBackground))
+          return `${acc} ${v.style}`;
+        if (k === "bg" && extras.includes(ThemeBackgroundTransparent))
+          return `${acc} background-color: transparent`;
+        if (k === "act" && parts.includes(ThemeAccent)) {
+          if (!extras.includes(ThemeFocus)) return acc;
+          if (extras.includes(ThemeError)) return `${acc} color: #F43F5E`;
 
-      s = `${s} ${style}`;
-    }
-    return s;
+          return `${acc} ${v.style}`;
+        }
+        return acc;
+      },
+      ""
+    );
+    console.log("theme res", { res, resvalue: res.value });
+    return res;
+    // let s = "";
+    // if (!compiled || !parts?.length) return s;
+    // if (
+    //   compiled?.tx &&
+    //   parts.includes(ThemeText) &&
+    //   !extras.includes(ThemeFocus)
+    // )
+    //   s = `${compiled.tx.style}`;
+    // if (compiled?.bt && parts.includes(ThemeButton))
+    //   s = `${s} ${compiled.bt.style}`;
+    // if (compiled?.bg && parts.includes(ThemeBackground))
+    //   s = `${s} ${compiled.bg.style}`;
+    // if (compiled?.bg && extras.includes(ThemeBackgroundTransparent))
+    //   s = `${s} background-color: transparent`;
+    // if (compiled?.act && parts.includes(ThemeAccent)) {
+    //   if (!extras.includes(ThemeFocus)) return s;
+    //   let { style } = compiled.act;
+
+    //   if (extras.includes(ThemeError)) style = "color: #F43F5E";
+
+    //   s = `${s} ${style}`;
+    // }
+    // return s;
   };
 
   /**
