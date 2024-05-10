@@ -20,7 +20,7 @@
   export let error: string = undefined;
 
   // @todo migrate to cell, and then merge both
-  export let action: () => void = undefined;
+  export let action: (ev: MouseEvent) => void = undefined;
   export let asyncAction: (ev: MouseEvent) => Promise<void | boolean | Error> =
     undefined;
 
@@ -56,7 +56,7 @@
   let promise: Promise<void | boolean | Error>;
   const click = (ev: MouseEvent) => {
     if (disabled) return;
-    if (action) return action();
+    if (action) return action(ev);
     // @todo manage errors
     else if (asyncAction) promise = asyncAction(ev);
   };
