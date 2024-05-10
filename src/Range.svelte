@@ -23,6 +23,7 @@
   export let infinite: boolean = false;
   export let style: RangeStyle = "neutral";
   export let size: RangeSize = "md";
+  export let disabled = false
 
   const theme = getTheme();
   const compiledTheme = theme?.compiled;
@@ -145,7 +146,8 @@
         on:input={onInput}
         {min}
         max={scale}
-        class="w-full {theme.dark(
+        {disabled}
+        class="w-full {disabled ? "cursor-default" : "cursor-pointer"} {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',
