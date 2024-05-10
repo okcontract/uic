@@ -1,9 +1,6 @@
 <script lang="ts">
   import type { SheetProxy, ValueCell } from "@okcontract/cells";
 
-  import { getTheme } from "./theme/theme";
-  import { ThemeText } from "./theme/types";
-
   export let proxy: SheetProxy;
   export let isOpen: ValueCell<boolean> = proxy.new(true, "isOpen");
 
@@ -22,9 +19,6 @@
     md: "collapse-md",
     lg: "collapse-lg"
   };
-
-  const theme = getTheme();
-  const compiledTheme = theme?.compiled;
 </script>
 
 <details
@@ -32,15 +26,7 @@
   bind:open={$isOpen}
 >
   {#if defaultBtn}
-    <summary
-      class="collapse-title font-medium focus:outline-none {theme.dark(
-        $compiledTheme,
-        'text-white',
-        'text-black',
-        ''
-      )}"
-      style={theme.apply($compiledTheme, [ThemeText])}
-    >
+    <summary class="collapse-title font-medium focus:outline-none">
       <slot name="heading" />
     </summary>
   {/if}

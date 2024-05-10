@@ -39,25 +39,25 @@
 
 <svelte:window on:click={handleWindowClick} on:keydown={handleKeyDown} />
 
-<div class="dropdown {dropdownStyles[style]}">
+<div
+  class="dropdown {dropdownStyles[style]} {dropdownOpen ? 'dropdown-open' : ''}"
+>
   <slot name="action" />
-  {#if dropdownOpen}
-    <div
-      bind:this={menuElement}
-      class="dropdown-content z-[1] menu p-2 shadow rounded-box {dropdownSizes[
-        size
-      ]} {theme.dark(
-        $compiledTheme,
-        'bg-white-alpha text-white',
-        'bg-black-alpha text-black',
-        'bg-base-100 text-base-content'
-      )}"
-      style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
-    >
-      <slot name="main" />
-      {#if split}
-        <slot name="additional" />
-      {/if}
-    </div>
-  {/if}
+  <div
+    bind:this={menuElement}
+    class="dropdown-content z-[1] menu p-2 shadow rounded-box {dropdownSizes[
+      size
+    ]} {theme.dark(
+      $compiledTheme,
+      'bg-white-alpha text-white',
+      'bg-black-alpha text-black',
+      'bg-base-100 text-base-content'
+    )}"
+    style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
+  >
+    <slot name="main" />
+    {#if split}
+      <slot name="additional" />
+    {/if}
+  </div>
 </div>
