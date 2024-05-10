@@ -2,15 +2,15 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  import { getTheme, Button, Icon } from "@okcontract/uic";
+  import { Button, Icon, getTheme } from "@okcontract/uic";
 
+  import { formatBig, parseUnits } from "./range";
   import {
-    type RangeStyle,
+    rangeSizes,
     rangeStyles,
     type RangeSize,
-    rangeSizes
+    type RangeStyle
   } from "./ui";
-  import { formatBig, parseUnits } from "./range";
 
   export let label: string;
   export let value: bigint;
@@ -23,7 +23,7 @@
   export let infinite: boolean = false;
   export let style: RangeStyle = "neutral";
   export let size: RangeSize = "md";
-  export let disabled = false
+  export let disabled = false;
 
   const theme = getTheme();
   const compiledTheme = theme?.compiled;
@@ -147,7 +147,9 @@
         {min}
         max={scale}
         {disabled}
-        class="w-full {disabled ? "cursor-default" : "cursor-pointer"} {theme.dark(
+        class="w-full {disabled
+          ? 'cursor-default'
+          : 'cursor-pointer'} {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',
