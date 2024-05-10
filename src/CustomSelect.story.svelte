@@ -3,8 +3,7 @@
 
   import type { Hst } from "@histoire/plugin-svelte";
 
-  import type { IconName } from "./icons";
-  import { CustomSelect } from "@okcontract/uic";
+  import { CustomSelect, type IconName } from "@okcontract/uic";
 
   export let Hst: Hst;
 

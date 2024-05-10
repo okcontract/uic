@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { flip } from "svelte/animate";
   import { createEventDispatcher } from "svelte";
+  import { flip } from "svelte/animate";
+
   const dispatch = createEventDispatcher();
 
   import type { AnyCell, ValueCell } from "@okcontract/cells";

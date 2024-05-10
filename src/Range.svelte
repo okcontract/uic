@@ -2,15 +2,15 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  import { ThemeText, getTheme, Button, Icon } from "@okcontract/uic";
+  import { Button, Icon, getTheme } from "@okcontract/uic";
 
+  import { formatBig, parseUnits } from "./range";
   import {
-    type RangeStyle,
+    rangeSizes,
     rangeStyles,
     type RangeSize,
-    rangeSizes
+    type RangeStyle
   } from "./ui";
-  import { formatBig, parseUnits } from "./range";
 
   export let label: string;
   export let value: bigint;
@@ -23,6 +23,7 @@
   export let infinite: boolean = false;
   export let style: RangeStyle = "neutral";
   export let size: RangeSize = "md";
+  export let disabled = false;
 
   const theme = getTheme();
   const compiledTheme = theme?.compiled;
@@ -61,7 +62,7 @@
   };
 </script>
 
-<div class="grid gap-2" style={theme.apply($compiledTheme, [ThemeText])}>
+<div class="grid gap-2">
   {#if !max || max === 0n}
     <dl
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
@@ -145,7 +146,10 @@
         on:input={onInput}
         {min}
         max={scale}
-        class="w-full {theme.dark(
+        {disabled}
+        class="w-full {disabled
+          ? 'cursor-default'
+          : 'cursor-pointer'} {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',

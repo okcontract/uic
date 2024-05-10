@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, onDestroy } from "svelte";
-  import { ThemeText, ThemeBackground, getTheme } from "@okcontract/uic";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
+
   import Icon from "./Icon.svelte";
   import { type IconName } from "./icons";
+  import { getTheme } from "./theme/theme";
+  import { ThemeBackground, ThemeText } from "./theme/types";
 
   export let values: {
     key: string;
@@ -55,33 +57,31 @@
   const defaultIcon: IconName = "add";
 </script>
 
-<div class="dropdown custom-select">
+<div class="dropdown custom-select {isOpen ? 'dropdown-open' : ''}">
   <button class="mb-1 btn btn-sm btn-default" on:click={toggleDropdown}>
     <slot />
   </button>
-  {#if isOpen}
-    <div
-      class="dropdown-content z-[1] menu p-2 shadow rounded-box {sizes[
-        size
-      ]} {theme.dark(
-        $compiledTheme,
-        'bg-white-alpha text-white',
-        'bg-black-alpha text-black',
-        'bg-base-100 text-base-content'
-      )}"
-      style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
-    >
-      {#each values as value (value.key)}
-        <li>
-          <button
-            class="flex gap-2 text-sm"
-            on:click={() => selectOption(value.key)}
-          >
-            <Icon name={value?.icon || defaultIcon} size="sm" />
-            {value.label || value.key}
-          </button>
-        </li>
-      {/each}
-    </div>
-  {/if}
+  <div
+    class="dropdown-content z-[1] menu p-2 shadow rounded-box min-h-10 {sizes[
+      size
+    ]} {theme.dark(
+      $compiledTheme,
+      'bg-white-alpha text-white',
+      'bg-black-alpha text-black',
+      'bg-base-100 text-base-content'
+    )}"
+    style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
+  >
+    {#each values as value (value.key)}
+      <li>
+        <button
+          class="flex gap-2 text-sm"
+          on:click={() => selectOption(value.key)}
+        >
+          <Icon name={value?.icon || defaultIcon} size="sm" />
+          {value.label || value.key}
+        </button>
+      </li>
+    {/each}
+  </div>
 </div>
