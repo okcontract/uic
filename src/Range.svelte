@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  import { ThemeText, getTheme, Button, Icon } from "@okcontract/uic";
+  import { getTheme, Button, Icon } from "@okcontract/uic";
 
   import {
     type RangeStyle,
@@ -61,7 +61,7 @@
   };
 </script>
 
-<div class="grid gap-2" style={theme.apply($compiledTheme, [ThemeText])}>
+<div class="grid gap-2">
   {#if !max || max === 0n}
     <dl
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
