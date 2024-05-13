@@ -3,12 +3,11 @@ import { getContext } from "svelte";
 import {
   type SheetProxy,
   mapObject,
-  reduceObject,
   type AnyCell,
-  type Cell,
   type CellObject,
-  type Cellified,
-  type MapCell
+  type MapCell,
+  collector,
+  type Cellified
 } from "@okcontract/cells";
 
 import {
@@ -46,7 +45,7 @@ export class Theme {
     console.log("new Theme", { proxy, th });
     this.proxy = proxy;
     this.raw = th;
-    this.compiled = this.compile(th);
+    this.compiled = th ? this.compile(th) : null;
     // this.compiled = th?.map(
     //   (_th) => (_th && this.compile(proxy, _th)) || null,
     //   "Theme.compiled",
@@ -97,39 +96,6 @@ export class Theme {
     });
     console.log("compile=>", { res, resvalue: res.value });
     return res;
-
-    // return Object.entries(th).reduce((acc, [k, v]) => {
-    //   // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-    //   if (v === undefined) return { ...acc, [k]: undefined };
-    //   // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-    //   if (typeof v === "boolean") return { ...acc, [k]: v ? "dark" : "light" };
-    //   const [sty, ...r] = v.split(":");
-    //   if ("act" === k)
-    //     // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-    //     return { ...acc, [k]: { style: `color: ${r[0]}`, value: r[0] } };
-
-    //   let val: CompiledThemeValue;
-
-    //   const prop = map_css_theme[k][sty];
-    //   switch (sty) {
-    //     case "color":
-    //       val = { style: `${prop}: ${r[0]};`, value: r[0] };
-    //       break;
-    //     case "img": {
-    //       const url = `${r[0]}:${r[1]}`;
-    //       val = { style: `${prop}: url("${url}");`, value: url };
-    //       break;
-    //     }
-    //     case "grad":
-    //       val = {
-    //         style: `${prop}: linear-gradient(${r[2]}deg,${r[0]},${r[1]});`,
-    //         value: [r[2], r[0], r[1]]
-    //       };
-    //       break;
-    //   }
-    //   // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-    //   return { ...acc, [k]: val };
-    // }, {} as CompiledTheme);
   };
 
   /**
@@ -146,7 +112,9 @@ export class Theme {
   ) => {
     // @todo reduceObject
 
-    if (!compiled) return "";
+    if (!compiled) {
+      return this.proxy.new("");
+    }
     console.log({ compiled });
     const res = reduceObject(
       this.proxy,
@@ -173,33 +141,11 @@ export class Theme {
         }
         return acc;
       },
-      ""
+      "",
+      "theme.res"
     );
     console.log("theme res", { res, resvalue: res.value });
     return res;
-    // let s = "";
-    // if (!compiled || !parts?.length) return s;
-    // if (
-    //   compiled?.tx &&
-    //   parts.includes(ThemeText) &&
-    //   !extras.includes(ThemeFocus)
-    // )
-    //   s = `${compiled.tx.style}`;
-    // if (compiled?.bt && parts.includes(ThemeButton))
-    //   s = `${s} ${compiled.bt.style}`;
-    // if (compiled?.bg && parts.includes(ThemeBackground))
-    //   s = `${s} ${compiled.bg.style}`;
-    // if (compiled?.bg && extras.includes(ThemeBackgroundTransparent))
-    //   s = `${s} background-color: transparent`;
-    // if (compiled?.act && parts.includes(ThemeAccent)) {
-    //   if (!extras.includes(ThemeFocus)) return s;
-    //   let { style } = compiled.act;
-
-    //   if (extras.includes(ThemeError)) style = "color: #F43F5E";
-
-    //   s = `${s} ${style}`;
-    // }
-    // return s;
   };
 
   /**
@@ -212,8 +158,24 @@ export class Theme {
    *
    * @returns
    */
-  dark = <T extends string>(compiled: CompiledTheme, wd: T, nd: T, def: T) =>
-    compiled ? (compiled?.dark === "dark" ? wd : nd) : def;
+  dark = <T extends string>(
+    compiled: Cellified<CompiledTheme>,
+    wd: T,
+    nd: T,
+    def: T
+  ) => {
+    if (!compiled) return this.proxy.new(def);
+    return reduceObject(
+      this.proxy,
+      compiled,
+      (acc, k, v) => {
+        if (k === "dark" && v === "dark") return wd;
+        return nd;
+      },
+      def
+    );
+  };
+  // compiled ? (compiled?.dark === "dark" ? wd : nd) : def;
 
   getColor = (compiled: CompiledTheme, elt: ThemeParts) =>
     elt !== "dark" ? compiled?.[elt]?.value : undefined;
@@ -247,3 +209,44 @@ export const getColor = (thv: CompiledThemeValue) =>
     : Array.isArray(thv.value) && thv.value.length === 3
       ? thv.value[1]
       : null;
+
+/**
+ * reduceObject applies the reducer function `fn` for each
+ * element in `obj`, starting from `init` value.
+ */
+export const reduceObject = <T, R, NF extends boolean = false>(
+  proxy: SheetProxy,
+  obj: CellObject<T>,
+  fn: (
+    acc: R,
+    key: string,
+    value: T,
+    cell?: AnyCell<T>,
+    index?: number
+  ) => R | Promise<R>,
+  init: R,
+  name = "reduceObject",
+  nf?: NF
+): MapCell<R, NF> => {
+  const coll = collector<MapCell<R, NF>>(proxy);
+  return proxy.mapNoPrevious(
+    [obj],
+    (cells) => {
+      const keys = Object.keys(cells);
+      const values = Object.values(cells);
+      return coll(
+        proxy.mapNoPrevious(
+          values,
+          (..._cells) =>
+            _cells.reduce(
+              (acc, _cell, i) => fn(acc, keys[i], _cell, values[i], i),
+              init
+            ),
+          "_reduce"
+        )
+      );
+    },
+    name,
+    nf
+  );
+};
