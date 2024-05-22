@@ -46,7 +46,7 @@
   {#if dropdownOpen}
     <div
       bind:this={menuElement}
-      class="dropdown-content z-[1] menu p-2 shadow rounded-box {dropdownSizes[
+      class="flex dropdown-content justify-center z-[1] shadow rounded-box {dropdownSizes[
         size
       ]} {theme.dark(
         $compiledTheme,
