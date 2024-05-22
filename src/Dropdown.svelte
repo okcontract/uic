@@ -1,12 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import { ThemeText, ThemeBackground, getTheme } from "@okcontract/uic";
+  import { ThemeBackground, ThemeText, getTheme } from "@okcontract/uic";
   import {
-    type DropdownStyle,
+    dropdownSizes,
     dropdownStyles,
     type DropdownSize,
-    dropdownSizes
+    type DropdownStyle
   } from "./ui";
 
   const dispatch = createEventDispatcher();
@@ -43,21 +43,23 @@
   class="dropdown {dropdownStyles[style]} {dropdownOpen ? 'dropdown-open' : ''}"
 >
   <slot name="action" />
-  <div
-    bind:this={menuElement}
-    class="dropdown-content z-[1] menu p-2 shadow rounded-box {dropdownSizes[
-      size
-    ]} {theme.dark(
-      $compiledTheme,
-      'bg-white-alpha text-white',
-      'bg-black-alpha text-black',
-      'bg-base-100 text-base-content'
-    )}"
-    style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
-  >
-    <slot name="main" />
-    {#if split}
-      <slot name="additional" />
-    {/if}
-  </div>
+  {#if dropdownOpen}
+    <div
+      bind:this={menuElement}
+      class="dropdown-content z-[1] menu p-2 shadow rounded-box {dropdownSizes[
+        size
+      ]} {theme.dark(
+        $compiledTheme,
+        'bg-white-alpha text-white',
+        'bg-black-alpha text-black',
+        'bg-base-100 text-base-content'
+      )}"
+      style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
+    >
+      <slot name="main" />
+      {#if split}
+        <slot name="additional" />
+      {/if}
+    </div>
+  {/if}
 </div>
