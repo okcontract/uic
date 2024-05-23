@@ -106,7 +106,7 @@
           on:keydown={onManualInput}
         >
           {threshold < slidingValue
-            ? "MAX"
+            ? "♾️"
             : formatBig(BigInt(slidingValue), Number(decimals.toString()))}
         </span>
         <span class="uppercase font-semibold">
@@ -120,7 +120,7 @@
       <dd class="flex">
         {#if infinite}
           <Button
-            label="Max"
+            label="♾️"
             style="neutral"
             size="sm"
             action={() => {
