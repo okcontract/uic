@@ -110,8 +110,8 @@ export const dropdownStyles = {
   "top-end": "dropdown-top dropdown-end",
   "top-left": "dropdown-left",
   "top-right": "dropdown-right",
-  "bottom-left": "dropdown-left dropdown-bottom",
-  "bottom-right": "dropdown-right dropdown-bottom"
+  "bottom-left": "dropdown-left dropdown-end",
+  "bottom-right": "dropdown-right dropdown-end"
 };
 export type DropdownStyle = keyof typeof dropdownStyles;
 
