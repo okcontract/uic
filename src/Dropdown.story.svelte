@@ -3,13 +3,18 @@
 
   import type { Hst } from "@histoire/plugin-svelte";
 
+  import { SheetProxy } from "@okcontract/cells";
   import { Dropdown } from "@okcontract/uic";
-  import { dropdownStyles, dropdownSizes } from "./ui";
+
+  import { sheet } from "./histoire";
+  import { dropdownSizes, dropdownStyles } from "./ui";
+
+  const proxy = new SheetProxy(sheet);
 
   export let Hst: Hst;
+  export let dropdownOpen = proxy.new(false, "dropdownOpen");
 
   let buttonElement: HTMLElement;
-  let dropdownOpen = false;
 
   let style = "bottom" as const;
   let size = "sm" as const;
@@ -31,7 +36,7 @@
         {dropdownOpen}
         {buttonElement}
         on:close={() => {
-          dropdownOpen = false;
+          $dropdownOpen = false;
         }}
       >
         <div slot="action">
@@ -39,7 +44,7 @@
             class="btn m-1"
             bind:this={buttonElement}
             on:click={() => {
-              dropdownOpen = !dropdownOpen;
+              dropdownOpen.update((v) => !v);
             }}
             >Click to open
           </button>

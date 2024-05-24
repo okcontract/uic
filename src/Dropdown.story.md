@@ -6,7 +6,7 @@
         {dropdownOpen}
         {buttonElement}
         on:close={() => {
-          dropdownOpen = false;
+          $dropdownOpen = false;
         }}
       >
         <div slot="main" class="p-2">
