@@ -23,7 +23,6 @@
   const compiledTheme = theme?.compiled;
 
   let menuElement: HTMLElement;
-  let element: HTMLElement;
 
   const handleWindowClick = (ev: MouseEvent) => {
     const path = ev.composedPath(); // ev.path on old browsers?
@@ -38,18 +37,14 @@
       dispatch("close", "escape");
     }
   };
-
-  dropdownOpen.subscribe((_open) => {
-    if (!element) return;
-    $dropdownOpen
-      ? element.setAttribute("open", "true")
-      : element.removeAttribute("open");
-  });
 </script>
 
 <svelte:window on:click={handleWindowClick} on:keydown={handleKeyDown} />
 
-<details bind:this={element} class="dropdown {dropdownStyles[style]}">
+<details
+  class="dropdown {dropdownStyles[style]}"
+  open={$dropdownOpen instanceof Error ? false : $dropdownOpen}
+>
   <summary>
     <slot name="action" />
   </summary>
