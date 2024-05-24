@@ -2,7 +2,9 @@
   import { createEventDispatcher } from "svelte";
 
   import type { AnyCell } from "@okcontract/cells";
-  import { ThemeBackground, ThemeText, getTheme } from "@okcontract/uic";
+
+  import { getTheme } from "./theme/theme";
+  import { ThemeBackground, ThemeText } from "./theme/types";
 
   import {
     dropdownSizes,
