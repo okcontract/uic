@@ -12,11 +12,11 @@
   const proxy = new SheetProxy(sheet);
 
   export let Hst: Hst;
-  export let dropdownOpen = proxy.new(false, "dropdownOpen");
 
+  const open = proxy.new(false, "open");
   let buttonElement: HTMLElement;
 
-  let style = "bottom" as const;
+  let style = "top" as const;
   let size = "sm" as const;
 </script>
 
@@ -33,10 +33,10 @@
       <Dropdown
         {style}
         {size}
-        {dropdownOpen}
+        {open}
         {buttonElement}
         on:close={() => {
-          $dropdownOpen = false;
+          $open = false;
         }}
       >
         <div slot="action">
@@ -44,7 +44,7 @@
             class="btn m-1"
             bind:this={buttonElement}
             on:click={() => {
-              dropdownOpen.update((v) => !v);
+              open.update((v) => !v);
             }}
             >Click to open
           </button>
@@ -70,6 +70,6 @@
       options={Object.keys(dropdownSizes)}
       title="Size"
     />
-    <pre>{JSON.stringify({ dropdownOpen, style }, null, 2)}</pre>
+    <pre>{JSON.stringify({ size, style }, null, 2)}</pre>
   </svelte:fragment>
 </Hst.Story>
