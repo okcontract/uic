@@ -3,10 +3,10 @@
 ```svelte
       <Dropdown
         {style}
-        {dropdownOpen}
+        {open}
         {buttonElement}
         on:close={() => {
-          dropdownOpen = false;
+          $open = false;
         }}
       >
         <div slot="main" class="p-2">

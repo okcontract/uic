@@ -1,33 +1,30 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import { ThemeText, ThemeBackground, getTheme } from "@okcontract/uic";
+  import type { AnyCell } from "@okcontract/cells";
+
+  import { getTheme } from "./theme/theme";
+  import { ThemeBackground, ThemeText } from "./theme/types";
   import {
-    type DropdownStyle,
+    dropdownSizes,
     dropdownStyles,
     type DropdownSize,
-    dropdownSizes
+    type DropdownStyle
   } from "./ui";
 
   const dispatch = createEventDispatcher();
 
   export let buttonElement: HTMLElement;
-  export let dropdownOpen: boolean;
+  export let open: AnyCell<boolean>;
   export let style: DropdownStyle = "bottom";
   export let size: DropdownSize = "sm";
-  export let split = false;
 
   const theme = getTheme();
   const compiledTheme = theme?.compiled;
 
-  let menuElement: HTMLElement;
-
   const handleWindowClick = (ev: MouseEvent) => {
-    const path = ev.composedPath(); // ev.path on old browsers?
-    if (path.includes(buttonElement) || path.includes(menuElement)) {
-      // Do not close menu when clicking on button or menu.
-      return;
-    }
+    const path = ev.composedPath();
+    if (path.includes(buttonElement)) return;
     dispatch("close", "click");
   };
   const handleKeyDown = (ev: KeyboardEvent) => {
@@ -39,12 +36,14 @@
 
 <svelte:window on:click={handleWindowClick} on:keydown={handleKeyDown} />
 
-<div
-  class="dropdown {dropdownStyles[style]} {dropdownOpen ? 'dropdown-open' : ''}"
+<details
+  class="dropdown {dropdownStyles[style]}"
+  open={$open instanceof Error ? false : $open}
 >
-  <slot name="action" />
+  <summary class="list-none">
+    <slot name="action" />
+  </summary>
   <div
-    bind:this={menuElement}
     class="dropdown-content z-[1] menu p-2 shadow rounded-box {dropdownSizes[
       size
     ]} {theme.dark(
@@ -56,8 +55,5 @@
     style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
   >
     <slot name="main" />
-    {#if split}
-      <slot name="additional" />
-    {/if}
   </div>
-</div>
+</details>
