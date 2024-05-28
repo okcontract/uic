@@ -58,7 +58,7 @@
 </script>
 
 <div class="dropdown custom-select {isOpen ? 'dropdown-open' : ''}">
-  <button class="mb-1 btn btn-sm btn-default" on:click={toggleDropdown}>
+  <button class="mb-1 btn btn-sm btn-outline" on:click={toggleDropdown}>
     <slot />
   </button>
   <div
