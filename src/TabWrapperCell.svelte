@@ -16,7 +16,7 @@
   export let showAsTabs: (i: number, self: AnyCell<T>[]) => string = undefined;
 
   export let canAdd: boolean = true;
-  export let addLabel = "Add tab";
+  export let addLabel = "Add";
   export let addElement: () => Promise<void> | void = undefined;
 
   export let canRemove: boolean = true;
