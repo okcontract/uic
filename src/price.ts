@@ -45,7 +45,7 @@ export const formatCurrency = (n: number, currency = "USD", decimal = 3) => {
       return `${
         isNegative ? "-" : ""
       }${currencySymbol}0.0${convertToUnicodeSubscript(
-        Math.abs(exponentValue).toString()
+        (Math.abs(exponentValue) - 1).toString()
       )}${normalizedMantissa}`;
     }
     return `${isNegative ? "-" : ""}${currencySymbol}${significantDigits}`;

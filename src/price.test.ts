@@ -16,8 +16,8 @@ describe("formatCurrency", () => {
     expect(formatCurrency(0.001)).toBe("$0.001");
     expect(formatCurrency(0.001, "GBP")).toBe("£0.001");
     expect(formatCurrency(0.001, "EUR")).toBe("€0.001");
-    expect(formatCurrency(0.000000034)).toBe("$0.0₈340");
-    expect(formatCurrency(0.00000000034)).toBe("$0.0₁₀340");
+    expect(formatCurrency(0.000000034)).toBe("$0.0₇340");
+    expect(formatCurrency(0.000000000034)).toBe("$0.0₁₀340");
   });
 
   it('returns "$0" for zero', () => {
@@ -25,7 +25,7 @@ describe("formatCurrency", () => {
   });
 
   it("formats negative small numbers correctly", () => {
-    expect(formatCurrency(-0.000000034)).toBe("-$0.0₈340");
+    expect(formatCurrency(-0.000000034)).toBe("-$0.0₇340");
   });
 
   it("formats numbers between 1 and 1 billion correctly", () => {
