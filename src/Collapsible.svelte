@@ -30,7 +30,7 @@
       <slot name="heading" />
     </summary>
   {/if}
-  <div class="collapse-content">
+  <div class="collapse-content overflow-auto">
     <slot />
   </div>
 </details>
