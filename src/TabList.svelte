@@ -1,11 +1,11 @@
 <script lang="ts">
   import {
-    type TabStyle,
-    tabStyles,
-    type TabSize,
-    tabSizes,
     tabMargins,
-    type TabMargin
+    tabSizes,
+    tabStyles,
+    type TabMargin,
+    type TabSize,
+    type TabStyle
   } from "./ui";
   export let size: TabSize = "md";
   export let style: TabStyle = "bordered";
@@ -16,7 +16,7 @@
   role="tablist"
   class="{tabStyles[style]} {tabSizes[size]} {tabMargins[
     mar
-  ]} z-10 justify-self-start"
+  ]} z-10 justify-self-start w-full overflow-x-auto"
 >
   <slot />
 </div>
