@@ -3,6 +3,7 @@
 
   export let title: boolean = false;
   export let act: boolean = false;
+  export let centered: boolean = false;
   export let style: keyof typeof styles = "default";
   export let pad: keyof typeof paddings = "sm";
 
@@ -38,7 +39,11 @@
   )} {paddings[pad]}"
   style={theme.apply($compiledTheme, [ThemeText])}
 >
-  <div class={pad === "sm" || pad === "md" ? "card-body" : ""}>
+  <div
+    class="{pad === 'sm' || pad === 'md' ? 'card-body' : ''} {centered
+      ? 'items-center text-center'
+      : ''}"
+  >
     {#if title}
       <h2 class="card-title"><slot name="title" /></h2>
     {/if}
