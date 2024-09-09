@@ -30,9 +30,7 @@ export const formatCurrency = (n: number, currency = "USD", decimal = 3) => {
       ?.value ?? "";
 
   if (absoluteValue >= 1e9) {
-    return `${isNegative ? "-" : ""}${currencySymbol}${(
-      absoluteValue / 1e9
-    ).toFixed(3)}bn`;
+    return `${isNegative ? "-" : ""}${currencySymbol}${(absoluteValue / 1e9).toFixed(3)}bn`;
   }
 
   if (absoluteValue > 0 && absoluteValue < 0.001) {
