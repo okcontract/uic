@@ -23,7 +23,7 @@
   export let removeElement: (i: number) => void = undefined;
 
   export let size: TabSize = "md";
-  export let style: TabStyle = "boxed";
+  export let style: TabStyle = "bordered";
   export let mar: TabMargin = "default";
 </script>
 
