@@ -67,7 +67,7 @@
     <dl
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
     >
-      <dt class="font-medium opacity-70">{label}</dt>
+      <dt class="font-medium opacity-70 capitalize">{label}</dt>
       {#if symb && required}
         <dd class="flex grow gap-1 items-center text-xs leading-5">
           <Icon name="warning-o" size="xs" />
@@ -98,7 +98,7 @@
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
     >
       <dt class="flex gap-1 items-center">
-        <span class="font-medium opacity-70">{label}:</span>
+        <span class="font-medium opacity-70 capitalize">{label}:</span>
         <!-- svelte-ignore a11y-no-static-element-interactions @todo -->
         <span
           class="font-semibold"

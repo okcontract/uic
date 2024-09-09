@@ -26,11 +26,11 @@
   bind:open={$isOpen}
 >
   {#if defaultBtn}
-    <summary class="collapse-title font-medium focus:outline-none">
+    <summary class="list-none collapse-title font-medium focus:outline-none">
       <slot name="heading" />
     </summary>
   {/if}
-  <div class="collapse-content">
+  <div class="collapse-content overflow-auto">
     <slot />
   </div>
 </details>

@@ -16,6 +16,14 @@
   .bg-white-alpha {
     @apply bg-white/10;
   }
+  
+  /* Btn style */
+  .btn-white-alpha {
+    @apply bg-white-alpha text-white border-none hover:bg-white/30;
+  }
+  .btn-black-alpha {
+    @apply bg-black-alpha text-black border-none hover:bg-black/30;
+  }
 
   /* Collapse  */
   .collapse-arrow.collapse-sm {

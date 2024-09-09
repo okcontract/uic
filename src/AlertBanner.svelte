@@ -2,10 +2,10 @@
   import { createEventDispatcher } from "svelte";
 
   import {
-    ThemeText,
+    Button,
     getTheme,
     Icon,
-    Button,
+    ThemeText,
     type FillStyle
   } from "@okcontract/uic";
 
@@ -50,7 +50,7 @@
   style={theme.apply($compiledTheme, [ThemeText])}
 >
   <Icon name={icons[icon]} size="md" {fill} />
-  <span class="flex flex-wrap break-words">
+  <span class="flex flex-wrap break-words {size == 'sm' ? 'text-xs' : ''}">
     <slot />
   </span>
   {#if close}
