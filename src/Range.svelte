@@ -70,11 +70,11 @@
       <dt class="font-medium opacity-70 capitalize">{label}</dt>
       {#if symb && required}
         <dd class="flex grow gap-1 items-center text-xs leading-5">
-          <Icon name="warning-o" size="xs" />
+          <Icon name="error-o" size="xs" />
           <span
-            ><b>Top up!</b> You need to get some
+            ><b>Top up!</b> Insufficient
             <span class="font-bold uppercase">{symb}</span>
-            tokens</span
+            balance</span
           >
         </dd>
       {/if}
