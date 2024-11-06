@@ -13,12 +13,12 @@
   } from "./ui";
 
   export let label: string;
-  export let value: bigint;
+  export let value: bigint = 0n;
 
   export let required: boolean = false;
   export let unit: string | Promise<string>;
   export let decimals: bigint = 0n;
-  export let min: number = 0;
+  export let min: bigint = 0n;
   export let max: bigint;
   export let infinite: boolean = false;
   export let style: RangeStyle = "neutral";
@@ -30,19 +30,28 @@
 
   const fakeInfinite = 10n ** 40n;
   const threshold = 10n ** 30n;
-  const precision = 3; // digits
-  const scale = 10 ** precision;
+  const precision = 3n; // digits
+  const scale = 10n ** precision;
+
+  const mathMax = (a: bigint, b: bigint) => (a > b ? a : b);
+  const mathRound = (value: bigint, divisor: bigint) => {
+    const halfDivisor = divisor / 2n;
+    const remainder = value % divisor;
+
+    // If remainder is at least half of divisor, round up; otherwise, round down
+    return remainder >= halfDivisor
+      ? (value + divisor - remainder) / divisor
+      : (value - remainder) / divisor;
+  };
 
   // @todo use Cell
   $: slider = value
     ? max &&
       max !== 0n &&
-      Math.max(
-        (min * scale) / Number(max),
-        Math.round(Number((BigInt(value.toString()) * BigInt(scale)) / max))
-      )
-    : (min * scale) / Number(max);
-  $: slidingValue = BigInt(value || 0);
+      mathMax((min * scale) / max, mathRound(value * scale, max))
+    : (min * scale) / max;
+
+  $: console.log({ min, scale, value, max });
 
   const onManualInput = (e: KeyboardEvent) => {
     if (e.keyCode === 13) {
@@ -51,9 +60,8 @@
       let parsedValue = parseFloat(contentEditableValue.replace(/,/g, ""));
       // update value and slider
       const nv = parseUnits(parsedValue.toString(), Number(decimals));
-      value = nv < BigInt(min) ? BigInt(min) : nv;
-      slidingValue = BigInt(value);
-      slider = Number((value * BigInt(scale)) / max);
+      value = nv < min ? min : nv;
+      slider = mathRound(value * scale, max);
       // @todo we also dispatch?
       dispatch("input", value);
     }
@@ -61,16 +69,10 @@
 
   // calculate value slider amount
   const onInput = (ev: Event) => {
-    const nv =
-      (BigInt(max) *
-        BigInt("value" in ev.target && (ev.target.value as string))) /
-      BigInt(scale);
-    slidingValue = nv < BigInt(min) ? BigInt(min) : nv;
+    const v = "value" in ev.target && (ev.target.value as string);
+    const nv = (max * BigInt(v || 0)) / scale;
     // Snap slider to nearest integer
-    slider = Math.max(
-      (min * scale) / Number(max),
-      Math.round(Number((nv * BigInt(scale)) / max))
-    );
+    slider = mathMax((min * scale) / max, mathRound(nv * BigInt(scale), max));
   };
 </script>
 
@@ -95,7 +97,7 @@
       <input
         type="range"
         disabled={true}
-        {min}
+        min={Number(min)}
         max={0}
         class="cursor-not-allowed opacity-50 w-full {theme.dark(
           $compiledTheme,
@@ -117,9 +119,12 @@
           contenteditable={true}
           on:keydown={onManualInput}
         >
-          {threshold < slidingValue
+          {threshold < slider
             ? "♾️"
-            : formatBig(BigInt(slidingValue), Number(decimals.toString()))}
+            : formatBig(
+                (BigInt(slider) * max) / BigInt(scale),
+                Number(decimals.toString())
+              )}
         </span>
         <span class="uppercase font-semibold">
           {#await unit}
@@ -150,17 +155,13 @@
         bind:value={slider}
         on:change={(ev) => {
           if (max) {
-            const nv =
-              (BigInt(max) * BigInt(ev.currentTarget.value)) / BigInt(scale);
-            dispatch(
-              "input",
-              BigInt(nv < BigInt(min) ? min : Math.round(Number(nv)))
-            );
+            const nv = (max * BigInt(ev.currentTarget.value)) / scale;
+            dispatch("input", nv < min ? min : nv);
           }
         }}
         on:input={onInput}
-        {min}
-        max={scale}
+        min={Number(min)}
+        max={Number(scale)}
         {disabled}
         class="w-full {disabled
           ? 'cursor-default'
