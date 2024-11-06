@@ -33,11 +33,15 @@
   const precision = 3; // digits
   const scale = 10 ** precision;
 
+  // @todo use Cell
   $: slider = value
     ? max &&
       max !== 0n &&
-      Number((BigInt(value.toString()) * BigInt(scale)) / max)
-    : 0;
+      Math.max(
+        (min * scale) / Number(max),
+        Math.round(Number((BigInt(value.toString()) * BigInt(scale)) / max))
+      )
+    : (min * scale) / Number(max);
   $: slidingValue = BigInt(value || 0);
 
   const onManualInput = (e: KeyboardEvent) => {
@@ -46,7 +50,9 @@
       let contentEditableValue = (e?.target as HTMLElement)?.textContent || "";
       let parsedValue = parseFloat(contentEditableValue.replace(/,/g, ""));
       // update value and slider
-      value = parseUnits(parsedValue.toString(), Number(decimals));
+      const nv = parseUnits(parsedValue.toString(), Number(decimals));
+      value = nv < BigInt(min) ? BigInt(min) : nv;
+      slidingValue = BigInt(value);
       slider = Number((value * BigInt(scale)) / max);
       // @todo we also dispatch?
       dispatch("input", value);
@@ -55,10 +61,16 @@
 
   // calculate value slider amount
   const onInput = (ev: Event) => {
-    slidingValue =
+    const nv =
       (BigInt(max) *
         BigInt("value" in ev.target && (ev.target.value as string))) /
       BigInt(scale);
+    slidingValue = nv < BigInt(min) ? BigInt(min) : nv;
+    // Snap slider to nearest integer
+    slider = Math.max(
+      (min * scale) / Number(max),
+      Math.round(Number((nv * BigInt(scale)) / max))
+    );
   };
 </script>
 
@@ -138,9 +150,12 @@
         bind:value={slider}
         on:change={(ev) => {
           if (max) {
-            const v =
+            const nv =
               (BigInt(max) * BigInt(ev.currentTarget.value)) / BigInt(scale);
-            dispatch("input", v);
+            dispatch(
+              "input",
+              BigInt(nv < BigInt(min) ? min : Math.round(Number(nv)))
+            );
           }
         }}
         on:input={onInput}
