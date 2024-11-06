@@ -16,7 +16,7 @@
   export let value: bigint;
 
   export let required: boolean = false;
-  export let symb: string | Promise<string>;
+  export let unit: string | Promise<string>;
   export let decimals: bigint = 0n;
   export let min: number = 0;
   export let max: bigint;
@@ -68,12 +68,12 @@
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
     >
       <dt class="font-medium opacity-70 capitalize">{label}</dt>
-      {#if symb && required}
+      {#if unit && required}
         <dd class="flex grow gap-1 items-center text-xs leading-5">
           <Icon name="error-o" size="xs" />
           <span
             ><b>Top up!</b> Insufficient
-            <span class="font-bold uppercase">{symb}</span>
+            <span class="font-bold uppercase">{unit}</span>
             balance</span
           >
         </dd>
@@ -110,10 +110,10 @@
             : formatBig(BigInt(slidingValue), Number(decimals.toString()))}
         </span>
         <span class="uppercase font-semibold">
-          {#await symb}
+          {#await unit}
             <span class="loading loading-spinner loading-xs"></span>
-          {:then symb}
-            {symb}
+          {:then unit}
+            {unit}
           {/await}
         </span>
       </dt>
