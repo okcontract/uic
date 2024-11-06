@@ -34,10 +34,10 @@
   const scale = 10n ** precision;
 
   const mathMax = (a: bigint, b: bigint) => (a > b ? a : b);
+
   const mathRound = (value: bigint, divisor: bigint) => {
     const halfDivisor = divisor / 2n;
     const remainder = value % divisor;
-
     // If remainder is at least half of divisor, round up; otherwise, round down
     return remainder >= halfDivisor
       ? (value + divisor - remainder) / divisor
@@ -49,7 +49,9 @@
     ? max &&
       max !== 0n &&
       mathMax((min * scale) / max, mathRound(value * scale, max))
-    : (min * scale) / max;
+    : max
+      ? (min * scale) / max
+      : 0n;
 
   $: console.log({ min, scale, value, max });
 
