@@ -35,7 +35,7 @@
 </script>
 
 <div
-  class="card {theme.dark(
+  class="card h-full {theme.dark(
     $compiledTheme,
     'bg-white-alpha text-white',
     'bg-black-alpha text-black',
