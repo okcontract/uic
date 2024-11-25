@@ -4,7 +4,6 @@
   import type { AnyCell } from "@okcontract/cells";
 
   import { getTheme } from "./theme/theme";
-  import { ThemeBackground, ThemeText } from "./theme/types";
   import {
     dropdownSizes,
     dropdownStyles,
@@ -48,11 +47,10 @@
       size
     ]} {theme.dark(
       $compiledTheme,
-      'bg-white-alpha text-white',
-      'bg-black-alpha text-black',
+      'bg-neutral text-white',
+      'bg-base-100 text-black',
       'bg-base-100 text-base-content'
     )}"
-    style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
   >
     <slot name="main" />
   </div>
