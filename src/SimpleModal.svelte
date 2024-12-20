@@ -1,13 +1,10 @@
 <script lang="ts">
   import type { ValueCell } from "@okcontract/cells";
-  import { getTheme, ThemeBackground, Button } from "@okcontract/uic";
+  import { Button } from "@okcontract/uic";
 
   export let isOpen: ValueCell<boolean>;
   export let btmAct: boolean = false;
   export let closeBtn: boolean = false;
-
-  const theme = getTheme();
-  const compiled = theme.compiled;
 
   function close() {
     isOpen.set(false);
@@ -15,7 +12,7 @@
 </script>
 
 <dialog class="modal{$isOpen ? ' modal-open' : ''}">
-  <div class="modal-box" style={theme.apply($compiled, [ThemeBackground])}>
+  <div class="modal-box">
     {#if closeBtn}
       <form method="dialog">
         <div class="absolute right-2 top-2">

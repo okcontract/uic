@@ -48,6 +48,7 @@
   export let addAsyncSpin = false;
   export let showErrors = false;
   export let joined: boolean = false;
+  export let title = undefined;
 
   export let thParts: ThemeParts[] = [];
   const theme = getTheme();
@@ -64,6 +65,7 @@
 
 {#await promise}
   <button
+    {title}
     disabled
     type="button"
     class="{theme.dark(
@@ -86,6 +88,7 @@
   </button>
 {:then done}
   <button
+    {title}
     type="button"
     on:click={click}
     disabled={disabled || $working instanceof Error ? true : $working}

@@ -7,7 +7,7 @@
       {min}
       {max}
       {value}
-      {symb}
+      {unit}
       decimals={new Rational(decimals)}
       {infinite}
     ></Range>
