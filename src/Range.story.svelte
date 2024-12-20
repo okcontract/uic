@@ -11,7 +11,7 @@
   let label = "Amount";
   let required = false;
   let decimals = 18;
-  let min = 0;
+  let min = 0n;
   let max = 9007199254740991000n;
   let value = 0n;
   let infinite = false;
