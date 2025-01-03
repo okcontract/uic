@@ -13,11 +13,15 @@
   const styles = {
     default: "bg-base-100 text-base-content shadow-xl",
     bordered: "bg-base-100 text-base-content border border-base-300",
+    outline: "bg-base-100 text-base-content border-2 border-neutral",
     base: "bg-base-200 text-base-content",
     primary: "bg-primary text-primary-content",
     secondary: "bg-secondary text-secondary-content",
     warning: "bg-warning text-warning-content",
     success: "bg-success text-success-content",
+    info: "bg-info text-info-content",
+    error: "bg-error text-error-content",
+    accent: "bg-accent text-accent-content",
     neutral: "bg-neutral text-neutral-content",
     glass: "glass",
     side: "lg:card-side bg-base-100 shadow-xl"
@@ -31,7 +35,7 @@
 </script>
 
 <div
-  class="card {theme.dark(
+  class="card h-full {theme.dark(
     $compiledTheme,
     'bg-white-alpha text-white',
     'bg-black-alpha text-black',
