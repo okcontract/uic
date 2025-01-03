@@ -107,14 +107,14 @@
     style={theme.apply($compiledTheme, thParts)}
   >
     {#if iconPrepend}
-      <Icon name={icon} />
+      <Icon name={icon} {size} />
     {/if}
     {#if label}{label}{/if}
     {#if $working}
       <span class="loading loading-spinner loading-xs"></span>
     {/if}
     {#if iconAppend}
-      <Icon name={icon} />
+      <Icon name={icon} {size} />
     {/if}
   </button>
 {:catch err}
