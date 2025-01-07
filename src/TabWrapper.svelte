@@ -25,11 +25,12 @@
   export let size: TabSize = "md";
   export let style: TabStyle = "boxed";
   export let mar: TabMargin = "default";
+  export let block = true;
 </script>
 
 {#if showAsTabs}
   <TabsMain>
-    <TabList {style} {size} {mar}>
+    <TabList {style} {size} {mar} {block}>
       {#each value as _, i}
         {@const title = showAsTabs(i, value)}
         <Tab index={i} {selected}
