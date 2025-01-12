@@ -95,7 +95,7 @@
     class="{theme.dark(
       $compiledTheme,
       'btn btn-default border-transparent hover:border-transparent',
-      'btn btn-neutral border-transparent hover:border-transparent',
+      'btn btn-neutral text-white border-transparent hover:border-transparent',
       buttonStyles[style]
     )} {buttonSizes[size]}{outline ? ' btn-outline' : ''}{wide
       ? ' btn-wide'
