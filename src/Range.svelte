@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  import { Button, Icon, getTheme } from "@okcontract/uic";
+  import { Button, Icon, ThemeAccent, getTheme } from "@okcontract/uic";
 
   import { formatBig, parseUnits } from "./range";
   import {
@@ -110,6 +110,10 @@
       />
     </label>
   {:else}
+    {@const style = theme
+      .apply($compiledTheme, [ThemeAccent])
+      .replace("color:", "--range-shdw:")}
+    <!-- {@const _ = console.log("slider", { style })} -->
     <dl
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
     >
@@ -173,6 +177,7 @@
           'range',
           rangeStyles[style]
         )} {rangeSizes[size]}"
+        {style}
       />
     </label>
   {/if}
