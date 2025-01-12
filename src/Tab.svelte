@@ -10,7 +10,7 @@
 <button
   role="tab"
   class="tab leading-tight gap-1 {$selected === index
-    ? 'tab-active'
+    ? 'tab-active font-semibold'
     : ''}{warning === true ? 'indicator' : ''}"
   class:selected={$selected === index}
   on:click={() => {
