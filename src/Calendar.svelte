@@ -1,14 +1,13 @@
 <script lang="ts">
-  import { onMount, createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
 
   import {
-    ThemeText,
+    Icon,
     getTheme,
-    type InputStyle,
+    inputSizes,
     inputStyles,
     type InputSize,
-    inputSizes,
-    Icon
+    type InputStyle
   } from "@okcontract/uic";
 
   export let style: InputStyle = "bordered";
@@ -55,8 +54,8 @@
       `${inputStyles[`${style}-ghost`]}`,
       `${inputStyles[style]}`
     )} {inputSizes[size]} flex items-center gap-2 w-40 justify-center"
-    style={theme.apply($compiledTheme, [ThemeText])}
   >
+    <!--style={theme.apply($compiledTheme, [ThemeText])}-->
     <input type="date" {disabled} bind:value={date} on:input={update} />
   </label>
   {#if !dayOnly}
@@ -67,8 +66,8 @@
         `${inputStyles[`${style}-ghost`]}`,
         `${inputStyles[style]}`
       )} {inputSizes[size]} flex items-center gap-2 w-40 justify-center"
-      style={theme.apply($compiledTheme, [ThemeText])}
     >
+      <!--style={theme.apply($compiledTheme, [ThemeText])}-->
       <Icon name="clock-o" size="xs" />
       <input
         type="number"

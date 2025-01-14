@@ -4,7 +4,7 @@
   import Icon from "./Icon.svelte";
   import { type IconName } from "./icons";
   import { getTheme } from "./theme/theme";
-  import { ThemeBackground, ThemeText } from "./theme/types";
+  import { ThemeBackground } from "./theme/types";
 
   export let values: {
     key: string;
@@ -70,7 +70,7 @@
       'bg-black-alpha text-black',
       'bg-base-100 text-base-content'
     )}"
-    style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
+    style={theme.apply($compiledTheme, [ThemeBackground])}
   >
     {#each values as value (value.key)}
       <li>

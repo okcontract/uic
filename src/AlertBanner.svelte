@@ -1,13 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import {
-    Button,
-    getTheme,
-    Icon,
-    ThemeText,
-    type FillStyle
-  } from "@okcontract/uic";
+  import { Button, getTheme, Icon, type FillStyle } from "@okcontract/uic";
 
   const dispatch = createEventDispatcher();
 
@@ -47,8 +41,8 @@
   on:click={action}
   on:keydown={action ? handleKeydown : undefined}
   class="{styles[style]} {size == 'sm' ? 'py-2 gap-2 rounded-none' : ''}"
-  style={theme.apply($compiledTheme, [ThemeText])}
 >
+  <!--style={theme.apply($compiledTheme, [ThemeText])}-->
   <Icon name={icons[icon]} size="md" {fill} />
   <span class="flex flex-wrap break-words {size == 'sm' ? 'text-xs' : ''}">
     <slot />

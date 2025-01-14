@@ -1,12 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import { ThemeText, getTheme } from "@okcontract/uic";
+  import { ThemeAccent, getTheme } from "@okcontract/uic";
   import {
-    checkboxStyles,
-    type CheckboxStyle,
     checkboxSizes,
-    type CheckboxSize
+    checkboxStyles,
+    type CheckboxSize,
+    type CheckboxStyle
   } from "./ui";
 
   const dispatch = createEventDispatcher();
@@ -40,7 +40,7 @@
         'text-black',
         ''
       )}"
-      style={theme.apply($compiledTheme, [ThemeText])}>{label}</span
+      style={theme.apply($compiledTheme, [ThemeAccent])}>{label}</span
     >
   </label>
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ThemeText, getTheme } from "@okcontract/uic";
+  import { getTheme } from "@okcontract/uic";
 
   export let title: string;
   export let size: "sm" | "md" = "md";
@@ -15,8 +15,8 @@
     'opacity-70',
     ''
   )} {size === 'sm' ? 'text-xs' : 'py-1'}"
-  style={theme.apply($compiledTheme, [ThemeText])}
 >
+  <!--style={theme.apply($compiledTheme, [ThemeText])}-->
   <dt>{title}</dt>
   <dd class="flex grow justify-end">
     <slot />
