@@ -49,6 +49,7 @@
   export let showErrors = false;
   export let joined: boolean = false;
   export let title = undefined;
+  export let rounded: boolean = false;
 
   export let thParts: ThemeParts[] = [];
   const theme = getTheme();
@@ -77,7 +78,9 @@
       ? ' btn-wide'
       : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
       ? ' btn-square'
-      : ''}{joined ? ' join-item' : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{joined ? ' join-item' : ''}{capitalize ? ' capitalize' : ''}{rounded
+      ? ' rounded-box'
+      : ''}"
     style={theme.apply($compiledTheme, thParts)}
     >{#if label}{label}{/if}
     {#if addAsyncSpin && $working}
@@ -103,7 +106,7 @@
       ? ' btn-square'
       : ''}{disabled ? ' btn-disabled' : ''}{joined
       ? ' join-item'
-      : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{capitalize ? ' capitalize' : ''}{rounded ? ' rounded-box' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     {#if iconPrepend}
@@ -134,7 +137,7 @@
       ? ' btn-square'
       : ''}{disabled ? ' btn-disabled' : ''}{joined
       ? ' join-item'
-      : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{capitalize ? ' capitalize' : ''}{rounded ? ' rounded-box' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     Retry: {#if label}{label}{/if}
