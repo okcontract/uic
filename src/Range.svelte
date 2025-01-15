@@ -101,12 +101,13 @@
         disabled={true}
         min={Number(min)}
         max={0}
-        class="cursor-not-allowed opacity-50 w-full {theme.dark(
+        class="cursor-not-allowed opacity-50 w-full range {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',
-          rangeStyles[style]
+          `${rangeStyles[style]}`
         )} {rangeSizes[size]}"
+        {style}
       />
     </label>
   {:else}
@@ -169,13 +170,13 @@
         min={Number(min)}
         max={Number(scale)}
         {disabled}
-        class="w-full {disabled
+        class="w-full range {disabled
           ? 'cursor-default'
           : 'cursor-pointer'} {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',
-          rangeStyles[style]
+          `${rangeStyles[style]}`
         )} {rangeSizes[size]}"
         {style}
       />
