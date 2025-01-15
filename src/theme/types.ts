@@ -30,10 +30,6 @@ type ThemeGradient = {
 type ThemeSolidColor = {
   col?: AnyCell<string>;
 };
-type ThemeDarkProperty = {
-  key?: AnyCell<string>;
-  enabled?: AnyCell<boolean>;
-};
 type ThemeAccentProperty = ThemeSolidColor;
 type ThemeTextProperty = ThemeSolidColor;
 type ThemeButtonProperty = ThemeProperty;
@@ -45,7 +41,7 @@ type ThemeBackgroundProperty = ThemeProperty;
 export type ThemeDefinition = {
   // dark mode (for all text)
   // computed automatically if not present
-  dark: AnyCell<ThemeDarkProperty>;
+  dark: AnyCell<boolean>;
   // optional accent color for components, etc.
   // otherwise: depends on dark
   [ThemeAccent]?: AnyCell<ThemeAccentProperty>;
