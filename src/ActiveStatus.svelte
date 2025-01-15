@@ -2,7 +2,7 @@
   export let act: boolean;
   export let label: string = undefined;
   export let title = undefined;
-  export let outline: boolean;
+  export let outline: boolean = undefined;
 </script>
 
 <div
