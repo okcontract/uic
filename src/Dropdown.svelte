@@ -36,7 +36,7 @@
 <svelte:window on:click={handleWindowClick} on:keydown={handleKeyDown} />
 
 <details
-  class="dropdown {dropdownStyles[style]}"
+  class="dropdown {dropdownStyles[style]} z-30"
   open={$open instanceof Error ? false : $open}
 >
   <summary class="list-none">

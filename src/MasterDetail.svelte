@@ -4,8 +4,8 @@
 
   import { type ValueCell } from "@okcontract/cells";
 
-  import type { IconName } from "./icons";
   import Button from "./Button.svelte";
+  import type { IconName } from "./icons";
 
   export let title: string = undefined;
 
@@ -78,7 +78,7 @@
 </div>
 
 {#if $selectedKey}
-  <slot name="detail" key={$selectedKey} value={selectedValue} />
+  <slot name="detail" key={$selectedKey} value={selectedValue} class="z-10" />
 
   {#if addThirdPanel}
     <slot name="third" key={$selectedKey} value={selectedValue} />
