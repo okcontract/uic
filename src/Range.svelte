@@ -30,7 +30,7 @@
 
   const fakeInfinite = 10n ** 40n;
   const threshold = 10n ** 30n;
-  const precision = 3n; // digits
+  const precision = 6n; // digits
   const scale = 10n ** precision;
 
   const mathMax = (a: bigint, b: bigint) => (a > b ? a : b);
