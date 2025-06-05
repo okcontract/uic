@@ -53,7 +53,13 @@
       ? (min * scale) / max
       : 0n;
 
-  $: console.log({ min, scale, value, max });
+  // $: console.log({ min, scale, value, max, slider });
+
+  // percentage-based lower bound for the range
+  $: sliderMin = max ? Number((min * scale) / max) : 0;
+
+  // numeric wrapper so we can bind to the <input>
+  $: sliderNum = Number(slider);
 
   const onManualInput = (e: KeyboardEvent) => {
     if (e.keyCode === 13) {
@@ -71,10 +77,10 @@
 
   // calculate value slider amount
   const onInput = (ev: Event) => {
-    const v = "value" in ev.target && (ev.target.value as string);
-    const nv = (max * BigInt(v || 0)) / scale;
-    // Snap slider to nearest integer
-    slider = mathMax((min * scale) / max, mathRound(nv * BigInt(scale), max));
+    const raw = BigInt((ev.target as HTMLInputElement).value);
+    slider = raw; // keep the bigint copy in sync
+    const tokens = (max * raw) / scale;
+    dispatch("input", tokens < min ? min : tokens);
   };
 </script>
 
@@ -159,7 +165,7 @@
     <label for="pcent">
       <input
         type="range"
-        bind:value={slider}
+        bind:value={sliderNum}
         on:change={(ev) => {
           if (max) {
             const nv = (max * BigInt(ev.currentTarget.value)) / scale;
@@ -167,7 +173,7 @@
           }
         }}
         on:input={onInput}
-        min={Number(min)}
+        min={sliderMin}
         max={Number(scale)}
         {disabled}
         class="w-full range {disabled
