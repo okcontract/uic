@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ThemeText, getTheme } from "@okcontract/uic";
+  import { getTheme } from "@okcontract/uic";
 
   export let title: boolean = false;
   export let act: boolean = false;
@@ -41,8 +41,8 @@
     'bg-black-alpha text-black',
     styles[style]
   )} {paddings[pad]}"
-  style={theme.apply($compiledTheme, [ThemeText])}
 >
+  <!--style={theme.apply($compiledTheme, [ThemeText])}-->
   <div
     class="{pad === 'sm' || pad === 'md' ? 'card-body' : ''} {centered
       ? 'items-center text-center'

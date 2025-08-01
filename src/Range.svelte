@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  import { Button, Icon, getTheme } from "@okcontract/uic";
+  import { Button, Icon, ThemeAccent, getTheme } from "@okcontract/uic";
 
   import { formatBig, parseUnits } from "./range";
   import {
@@ -30,7 +30,7 @@
 
   const fakeInfinite = 10n ** 40n;
   const threshold = 10n ** 30n;
-  const precision = 3n; // digits
+  const precision = 6n; // digits
   const scale = 10n ** precision;
 
   const mathMax = (a: bigint, b: bigint) => (a > b ? a : b);
@@ -53,7 +53,13 @@
       ? (min * scale) / max
       : 0n;
 
-  $: console.log({ min, scale, value, max });
+  // $: console.log({ min, scale, value, max, slider });
+
+  // percentage-based lower bound for the range
+  $: sliderMin = max ? Number((min * scale) / max) : 0;
+
+  // numeric wrapper so we can bind to the <input>
+  $: sliderNum = Number(slider);
 
   const onManualInput = (e: KeyboardEvent) => {
     if (e.keyCode === 13) {
@@ -71,10 +77,10 @@
 
   // calculate value slider amount
   const onInput = (ev: Event) => {
-    const v = "value" in ev.target && (ev.target.value as string);
-    const nv = (max * BigInt(v || 0)) / scale;
-    // Snap slider to nearest integer
-    slider = mathMax((min * scale) / max, mathRound(nv * BigInt(scale), max));
+    const raw = BigInt((ev.target as HTMLInputElement).value);
+    slider = raw; // keep the bigint copy in sync
+    const tokens = (max * raw) / scale;
+    dispatch("input", tokens < min ? min : tokens);
   };
 </script>
 
@@ -101,15 +107,20 @@
         disabled={true}
         min={Number(min)}
         max={0}
-        class="cursor-not-allowed opacity-50 w-full {theme.dark(
+        class="cursor-not-allowed opacity-50 w-full range {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',
-          rangeStyles[style]
+          `${rangeStyles[style]}`
         )} {rangeSizes[size]}"
+        {style}
       />
     </label>
   {:else}
+    {@const style = theme
+      .apply($compiledTheme, [ThemeAccent])
+      .replace("color:", "--range-shdw:")}
+    <!-- {@const _ = console.log("slider", { style })} -->
     <dl
       class="flex gap-1 items-center justify-between w-full text-sm leading-5"
     >
@@ -154,7 +165,7 @@
     <label for="pcent">
       <input
         type="range"
-        bind:value={slider}
+        bind:value={sliderNum}
         on:change={(ev) => {
           if (max) {
             const nv = (max * BigInt(ev.currentTarget.value)) / scale;
@@ -162,17 +173,18 @@
           }
         }}
         on:input={onInput}
-        min={Number(min)}
+        min={sliderMin}
         max={Number(scale)}
         {disabled}
-        class="w-full {disabled
+        class="w-full range {disabled
           ? 'cursor-default'
           : 'cursor-pointer'} {theme.dark(
           $compiledTheme,
           'range range-white',
           'range',
-          rangeStyles[style]
+          `${rangeStyles[style]}`
         )} {rangeSizes[size]}"
+        {style}
       />
     </label>
   {/if}

@@ -49,6 +49,7 @@
   export let showErrors = false;
   export let joined: boolean = false;
   export let title = undefined;
+  export let rounded: boolean = false;
 
   export let thParts: ThemeParts[] = [];
   const theme = getTheme();
@@ -77,7 +78,9 @@
       ? ' btn-wide'
       : ''}{block ? ' btn-block' : ''}{circle ? ' btn-circle' : ''}{square
       ? ' btn-square'
-      : ''}{joined ? ' join-item' : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{joined ? ' join-item' : ''}{capitalize ? ' capitalize' : ''}{rounded
+      ? ' rounded-box'
+      : ''}"
     style={theme.apply($compiledTheme, thParts)}
     >{#if label}{label}{/if}
     {#if addAsyncSpin && $working}
@@ -95,7 +98,7 @@
     class="{theme.dark(
       $compiledTheme,
       'btn btn-default border-transparent hover:border-transparent',
-      'btn btn-neutral border-transparent hover:border-transparent',
+      'btn btn-neutral text-white border-transparent hover:border-transparent',
       buttonStyles[style]
     )} {buttonSizes[size]}{outline ? ' btn-outline' : ''}{wide
       ? ' btn-wide'
@@ -103,18 +106,18 @@
       ? ' btn-square'
       : ''}{disabled ? ' btn-disabled' : ''}{joined
       ? ' join-item'
-      : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{capitalize ? ' capitalize' : ''}{rounded ? ' rounded-box' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     {#if iconPrepend}
-      <Icon name={icon} />
+      <Icon name={icon} {size} />
     {/if}
     {#if label}{label}{/if}
     {#if $working}
       <span class="loading loading-spinner loading-xs"></span>
     {/if}
     {#if iconAppend}
-      <Icon name={icon} />
+      <Icon name={icon} {size} />
     {/if}
   </button>
 {:catch err}
@@ -134,7 +137,7 @@
       ? ' btn-square'
       : ''}{disabled ? ' btn-disabled' : ''}{joined
       ? ' join-item'
-      : ''}{capitalize ? ' capitalize' : ''}"
+      : ''}{capitalize ? ' capitalize' : ''}{rounded ? ' rounded-box' : ''}"
     style={theme.apply($compiledTheme, thParts)}
   >
     Retry: {#if label}{label}{/if}

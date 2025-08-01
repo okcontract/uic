@@ -62,6 +62,7 @@
           />
         </div>
       {/if}
+      <div class="tab"></div>
     </TabList>
     {#each $value as item, i (item.id)}
       <TabPanel index={i} {selected}>

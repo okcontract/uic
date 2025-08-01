@@ -10,13 +10,14 @@
   export let size: TabSize = "md";
   export let style: TabStyle = "bordered";
   export let mar: TabMargin = "default";
+  export let block = true;
 </script>
 
 <div
   role="tablist"
-  class="{tabStyles[style]} {tabSizes[size]} {tabMargins[
-    mar
-  ]} z-10 justify-self-start w-full overflow-x-auto"
+  class="{tabStyles[style]} {tabSizes[size]} {tabMargins[mar]} z-10 {block
+    ? 'w-full justify-self-start'
+    : 'justify-start'} overflow-x-auto"
 >
   <slot />
 </div>

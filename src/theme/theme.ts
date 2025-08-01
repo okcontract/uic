@@ -53,6 +53,7 @@ export class Theme {
    */
   compile = (th: RawThemeDefinition) => {
     return Object.entries(th).reduce((acc, [k, v]) => {
+      // console.log("style", { k, v });
       // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
       if (v === undefined) return { ...acc, [k]: undefined };
       // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
@@ -113,11 +114,8 @@ export class Theme {
     if (compiled?.bg && extras.includes(ThemeBackgroundTransparent))
       s = `${s} background-color: transparent`;
     if (compiled?.act && parts.includes(ThemeAccent)) {
-      if (!extras.includes(ThemeFocus)) return s;
       let { style } = compiled.act;
-
       if (extras.includes(ThemeError)) style = "color: #F43F5E";
-
       s = `${s} ${style}`;
     }
     return s;

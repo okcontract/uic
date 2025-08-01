@@ -4,7 +4,6 @@
   import type { AnyCell } from "@okcontract/cells";
 
   import { getTheme } from "./theme/theme";
-  import { ThemeBackground, ThemeText } from "./theme/types";
   import {
     dropdownSizes,
     dropdownStyles,
@@ -37,7 +36,7 @@
 <svelte:window on:click={handleWindowClick} on:keydown={handleKeyDown} />
 
 <details
-  class="dropdown {dropdownStyles[style]}"
+  class="dropdown {dropdownStyles[style]} z-30"
   open={$open instanceof Error ? false : $open}
 >
   <summary class="list-none">
@@ -48,11 +47,10 @@
       size
     ]} {theme.dark(
       $compiledTheme,
-      'bg-white-alpha text-white',
-      'bg-black-alpha text-black',
+      'bg-neutral text-white',
+      'bg-base-100 text-black',
       'bg-base-100 text-base-content'
     )}"
-    style={theme.apply($compiledTheme, [ThemeBackground, ThemeText])}
   >
     <slot name="main" />
   </div>

@@ -45,7 +45,7 @@ export const buttonStyles = {
   primary: "btn btn-primary",
   accent: "btn btn-accent",
   secondary: "btn btn-secondary",
-  error: "btn btn-error",
+  error: "btn text-error",
   success: "btn btn-success",
   warning: "btn btn-warning",
   info: "btn btn-info",
@@ -142,7 +142,7 @@ export type TabSize = keyof typeof tabSizes;
 
 export const tabMargins = {
   none: "",
-  neg: "-mb-1",
+  neg: "-mb-[var(--tab-border)]",
   default: "mb-4"
 };
 export type TabMargin = keyof typeof tabMargins;
